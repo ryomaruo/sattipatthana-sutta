@@ -1,0 +1,50 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx
+    container_name: ss-nginx
+    ports:
+      - 8080:8080
+    expose:
+      - "8080"
+    volumes:
+      - ./nginx/conf/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - backend
+    tty: true
+
+  backend: &app_base
+    build: ./backend
+    container_name: ss-backend
+    command: bin/rails s -b "0.0.0.0"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - bundle_dir:/usr/local/bundle
+    depends_on:
+      - db
+    tty: true
+
+  spring:
+    <<: *app_base
+    container_name: ss-spring
+    command: spring server
+    ports: []
+
+  db:
+    image: mongo
+    container_name: ss-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/data/db
+    ports:
+      - "27017:27017"
+    tty: true
+
+volumes:
+  db_data:
+  bundle_dir:
+    driver: local
