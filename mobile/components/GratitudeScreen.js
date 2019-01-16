@@ -15,6 +15,9 @@ import {
 
 export default class GratitudeScreen extends Component {
   render() {
+    console.log('this.props');
+    console.log(this.props);
+    
     const { navigate } = this.props.navigation;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

@@ -6,18 +6,6 @@ import {
   createAppContainer,
   addNavigationHelpers
 } from 'react-navigation';
-import {
-  createStore,
-  applyMiddleware,
-  combineReducers,
-} from 'redux';
-import {
-  reduxifyNavigator,
-  createReactNavigationReduxMiddleware,
-  createNavigationReducer,
-} from 'react-navigation-redux-helpers';
-import { Provider, connect } from 'react-redux';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import FeelingScreen from './components/FeelingScreen';
@@ -67,35 +55,4 @@ const NavigatorConfig = {
     }
   }
 }
-const TabNavigator = createBottomTabNavigator(RouteConfigs, NavigatorConfig);
-// navigator用のReeducerを準備
-const navReducer = createNavigationReducer(TabNavigator);
-const rootReducer = combineReducers({
-  nav: navReducer
-});
-
-// navigatorがdispatchする際に、navReducerに適応した形式になるようにmiddlewareを噛ませる。
-const middleware = createReactNavigationReduxMiddleware(
-  "root",
-  state => state.nav,
-);
-const App = reduxifyNavigator(TabNavigator, "root");
-const mapStateToProps = (state) => ({
-  state: state.nav,
-});
-const AppWithNavigationState = connect(mapStateToProps)(App);
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(middleware),
-);
-
-export default class Root extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <AppWithNavigationState />
-      </Provider>
-    );
-  }
-}
+export default  createBottomTabNavigator(RouteConfigs, NavigatorConfig);
