@@ -2,7 +2,7 @@ version: '3'
 services:
   nginx:
     build: ./nginx
-    container_name: ss-nginx
+    container_name: sati_nginx
     ports:
       - 8080:8080
     expose:
@@ -15,36 +15,42 @@ services:
 
   backend: &app_base
     build: ./backend
-    container_name: ss-backend
+    container_name: sati_backend
     command: bin/rails s -b "0.0.0.0"
     ports:
       - "3000:3000"
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend:/usr/src/sati
       - bundle_dir:/usr/local/bundle
     depends_on:
       - db
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      RAILS_ENV: development
     tty: true
 
   spring:
     <<: *app_base
-    container_name: ss-spring
+    container_name: sati_spring
     command: spring server
     ports: []
 
   db:
-    image: mongo
-    container_name: ss-db
+    image: mysql:5.7.10
+    container_name: sati_mysql
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - db_data:/data/db
+     MYSQL_DATABASE: ${MYSQL_DATABASE}
+     MYSQL_USER: ${MYSQL_USER}
+     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "27017:27017"
+      - "3306:3306"
+    volumes:
+      - sati-mysql-data:/var/lib/mysql
     tty: true
 
 volumes:
-  db_data:
+  sati-mysql-data:
   bundle_dir:
     driver: local

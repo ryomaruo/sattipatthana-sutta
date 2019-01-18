@@ -1,6 +1,6 @@
 FROM ruby:2.5.1
 
-ENV APP_ROOT /usr/src/app
+ENV APP_ROOT /usr/src/sati
 
 WORKDIR $APP_ROOT
 
@@ -23,6 +23,8 @@ RUN \
   bundle config --global jobs 4 && \
   bundle install && \
   rm -rf ~/.gem
+
+COPY . $APP_ROOT
 
 EXPOSE  3000
 CMD ["rails", "server", "-b", "0.0.0.0"]
