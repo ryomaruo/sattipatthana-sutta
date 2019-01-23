@@ -25,42 +25,42 @@ export default class FeelingScreen extends Component {
           <View style={styles.circle_container}>
             <Button
               title="Relux"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[0], { backgroundColor: "green" })}
             />
             <Button
               title="Cool"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[1], { backgroundColor: "skyblue" })}
             />
             <Button
               title="Sad"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[2], { backgroundColor: "blue" })}
             />
             <Button
               title="Bored"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[3], { backgroundColor: "purple" })}
             />
             <Button
               title="Angry"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[4], { backgroundColor: "#f66" })}
             />
             <Button
               title="Want"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[5], { backgroundColor: "orange" })}
             />
             <Button
               title="Happy"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[6], { backgroundColor: "yellow" })}
             />
             <Button
               title="Trust"
-              titleStyle={{ fontSize: 4 }}
+              titleStyle={{ color: '#000000' }}
               buttonStyle={Object.assign({}, styles.button, posi[7], { backgroundColor: "lightgreen" })}
             />
           </View>
@@ -84,11 +84,11 @@ const styles = {
     position: 'relative'
   },
   button: {
-    width: 80,
-    height: 40,
+    width: 100,
+    height: 60,
     borderColor: "transparent",
     borderWidth: 0,
-    borderRadius: 40
+    borderRadius: 20
   }
 }
 
@@ -99,9 +99,10 @@ let posi = [];
 for (let i = 0; i < btnCnt; i++) {
   deg = 360 / btnCnt * i;
   rad = deg * Math.PI / 180;
-  top = Math.sin(rad) * r + r - 20;  
-  left = Math.cos(rad) * r + r - 55;
-  rotate = i*45 + 'deg';
+  top = Math.sin(rad) * r + r - 30;  
+  left = Math.cos(rad) * r + r - 65;
+  rotate = (i*45 < 90 || i*45 > 270)? i*45:i*45+180; 
+  rotate = rotate + 'deg';
   posi.push({
     top: top,
     left: left,
